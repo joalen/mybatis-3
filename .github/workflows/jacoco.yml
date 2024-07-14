@@ -26,13 +26,15 @@ jobs:
     - name: Set up Maven 3.9.6
       run: |
         if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
-          wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -P /tmp
-          sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
-          sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
-          echo "export M2_HOME=/opt/maven" >> ~/.bashrc
-          echo "export MAVEN_HOME=/opt/maven" >> ~/.bashrc
-          echo "export PATH=${M2_HOME}/bin:${PATH}" >> ~/.bashrc
+          wget -q -O /tmp/apache-maven-3.9.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+          sudo tar xf /tmp/apache-maven-3.9.6-bin.tar.gz -C /opt
+          sudo ln -sfn /opt/apache-maven-3.9.6 /usr/share/apache-maven
+          sudo ln -sfn /opt/apache-maven-3.9.6 /usr/share/maven
+          echo "export M2_HOME=/usr/share/maven" >> ~/.bashrc
+          echo "export MAVEN_HOME=/usr/share/maven" >> ~/.bashrc
+          echo "export PATH=\${M2_HOME}/bin:\${PATH}" >> ~/.bashrc
           source ~/.bashrc
+          mvn --version
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
           brew update
           brew install maven
