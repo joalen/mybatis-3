@@ -23,26 +23,10 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
   
-    - name: Set up Maven 3.9.6
-      run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
-          sudo rm -rf /usr/share/apache-maven-3.8.8
-          sudo rm -rf /usr/share/apache-maven
-          sudo rm -rf /usr/share/maven
-          wget -q -O /tmp/apache-maven-3.9.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
-          sudo tar xf /tmp/apache-maven-3.9.6-bin.tar.gz -C /opt
-          sudo ln -sfn /opt/apache-maven-3.9.6 /usr/share/apache-maven
-          sudo ln -sfn /opt/apache-maven-3.9.6 /usr/share/maven
-          echo "export M2_HOME=/usr/share/maven" >> ~/.bashrc
-          echo "export MAVEN_HOME=/usr/share/maven" >> ~/.bashrc
-          echo "export PATH=\${M2_HOME}/bin:\${PATH}" >> ~/.bashrc
-          source ~/.bashrc
-          mvn --version
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-          brew update
-          brew install maven
-          mvn --version
-        fi
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: 3.9.6
         
     - name: Overwrite old pom.xml
       run: |
