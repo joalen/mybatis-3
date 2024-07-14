@@ -16,14 +16,30 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: c7c8d7bcbc8f12f27e740fa41755d9dcb4e2147c
-  
+        
     - name: Set up JDK 17 for project
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
-        cache: 'maven'
-        
+
+    - name: Set up Maven 3.9.6
+      run: |
+        if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
+          wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -P /tmp
+          sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
+          sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
+          echo "export M2_HOME=/opt/maven" >> /etc/profile.d/maven.sh
+          echo "export MAVEN_HOME=/opt/maven" >> /etc/profile.d/maven.sh
+          echo "export PATH=${M2_HOME}/bin:${PATH}" >> /etc/profile.d/maven.sh
+          sudo chmod +x /etc/profile.d/maven.sh
+          source /etc/profile.d/maven.sh
+        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+          brew update
+          brew install maven
+        fi
+        mvn --version
+      
     - name: Overwrite old pom.xml
       run: |
         curl -o new_pom.xml https://pastebin.com/raw/mRNeKXdN
