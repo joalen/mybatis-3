@@ -22,16 +22,13 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-
-    - name: Remove existing Maven installation
-      run: |
-        sudo rm -rf /usr/share/apache-maven-3.8.8
-        sudo rm -rf /usr/share/apache-maven
-        sudo rm -rf /usr/share/maven
   
     - name: Set up Maven 3.9.6
       run: |
         if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
+          sudo rm -rf /usr/share/apache-maven-3.8.8
+          sudo rm -rf /usr/share/apache-maven
+          sudo rm -rf /usr/share/maven
           wget -q -O /tmp/apache-maven-3.9.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
           sudo tar xf /tmp/apache-maven-3.9.6-bin.tar.gz -C /opt
           sudo ln -sfn /opt/apache-maven-3.9.6 /usr/share/apache-maven
