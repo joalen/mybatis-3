@@ -23,11 +23,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
   
-    - name: Set up Maven
-      uses: stCarolas/setup-maven@v5
+    - name: Setup Maven Action
+      uses: s4u/setup-maven-action@v1.7.0
       with:
+        checkout-fetch-depth: 0
+        java-version: 17
+        java-distribution: temurin
         maven-version: 3.9.6
-        
+      
     - name: Overwrite old pom.xml
       run: |
         curl -o new_pom.xml https://pastebin.com/raw/mRNeKXdN
