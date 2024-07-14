@@ -22,17 +22,7 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-
-    - name: Set up Maven 3.9.6
-      run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-22.04" ]]; then
-          sudo apt-get update
-          sudo apt-get install -y maven
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-          brew update
-          brew install maven
-        fi
-        mvn --version
+        cache: 'maven'
         
     - name: Overwrite old pom.xml
       run: |
