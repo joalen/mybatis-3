@@ -41,9 +41,9 @@ jobs:
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
           brew update
           brew install maven
+          mvn --version
         fi
-        mvn --version
-      
+        
     - name: Overwrite old pom.xml
       run: |
         curl -o new_pom.xml https://pastebin.com/raw/mRNeKXdN
