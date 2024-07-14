@@ -29,11 +29,10 @@ jobs:
           wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -P /tmp
           sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
           sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
-          echo "export M2_HOME=/opt/maven" >> /etc/profile.d/maven.sh
-          echo "export MAVEN_HOME=/opt/maven" >> /etc/profile.d/maven.sh
-          echo "export PATH=${M2_HOME}/bin:${PATH}" >> /etc/profile.d/maven.sh
-          sudo chmod +x /etc/profile.d/maven.sh
-          source /etc/profile.d/maven.sh
+          echo "export M2_HOME=/opt/maven" >> ~/.bashrc
+          echo "export MAVEN_HOME=/opt/maven" >> ~/.bashrc
+          echo "export PATH=${M2_HOME}/bin:${PATH}" >> ~/.bashrc
+          source ~/.bashrc
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
           brew update
           brew install maven
